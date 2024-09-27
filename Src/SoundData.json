@@ -1,0 +1,1 @@
+{"EnterSoundsDir": "../Sounds/Enter", "SpaceSoundsDirs": ["../Sounds/Space/Down", "../Sounds/Space/Up"], "KeySoundsDir": ["../Sounds/Key/Down", "../Sounds/Key/Up"], "PitchDown": 0.8, "PitchUp": 0.7, "PitchModifier": 0.025}
