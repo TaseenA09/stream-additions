@@ -17,17 +17,16 @@ ConfigData = DataLoader.LoadAndUpdateJson(defaultValues={
 ,file= "SoundData.json"
 )
 
-
-EnterSounds = [f for f in os.listdir(ConfigData["EnterSoundsDir"]) if os.path.isfile(os.path.join(ConfigData["EnterSoundsDir"], f))]
+EnterSounds = DataLoader.LoadFiles(ConfigData["EnterSoundsDir"])
 
 SpaceSounds = [
-    [f for f in os.listdir(ConfigData["SpaceSoundsDirs"][0]) if os.path.isfile(os.path.join(ConfigData["SpaceSoundsDirs"][0], f))],
-    [f for f in os.listdir(ConfigData["SpaceSoundsDirs"][1]) if os.path.isfile(os.path.join(ConfigData["SpaceSoundsDirs"][1], f))]
+    DataLoader.LoadFiles(ConfigData["SpaceSoundsDirs"][0]),
+    DataLoader.LoadFiles(ConfigData["SpaceSoundsDirs"][1])
 ]
 
 KeySounds = [
-    [f for f in os.listdir(ConfigData["KeySoundsDir"][0]) if os.path.isfile(os.path.join(ConfigData["KeySoundsDir"][0], f))],
-    [f for f in os.listdir(ConfigData["KeySoundsDir"][1]) if os.path.isfile(os.path.join(ConfigData["KeySoundsDir"][1], f))]
+    DataLoader.LoadFiles(ConfigData["KeySoundsDir"][0]),
+    DataLoader.LoadFiles(ConfigData["KeySoundsDir"][1])
 ]
 
 
