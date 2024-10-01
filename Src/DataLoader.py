@@ -2,7 +2,7 @@ import json
 import os
 
 def LoadFiles(directory:str) -> list:
-    [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
+   return  [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 
 def LoadAndUpdateJson(defaultValues,file) -> list:
     if os.path.exists(file):

@@ -81,6 +81,8 @@ def playSoundForKey(event,type:int):
         currentSoundDir = ConfigData["KeySoundsDir"][type]
         currentSoundList = KeySounds[type]
 
+    print(KeySounds)
+
     key_sound_selected = currentSoundDir+"/"+currentSoundList[random.SystemRandom().randint(0,len(currentSoundList)-1)]
 
     currentSound = pygame.mixer.Sound(key_sound_selected)
