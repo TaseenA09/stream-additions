@@ -1,15 +1,15 @@
 import pygame
 import numpy as np
 import random
-import os
 import DataLoader
 
 pygame.mixer.init()
 
 ConfigData = DataLoader.LoadAndUpdateJson(defaultValues={
-        "EnterSoundsDir": '../Sounds/Enter',
+        "EnterSoundsDir": ['../Sounds/Enter/Down','../Sounds/Enter/Up'],
         "SpaceSoundsDirs": ['../Sounds/Space/Down','../Sounds/Space/Up'],
         "KeySoundsDir": ['../Sounds/Key/Down','../Sounds/Key/Up'],
+        "MouseSoundsDir": ['../Sounds/Mouse/Down','../Sounds/Mouse/Up'],
         "PitchDown" : 1.1,
         "PitchUp" : 0.95,
         "PitchModifier" : 0.025,
@@ -17,18 +17,25 @@ ConfigData = DataLoader.LoadAndUpdateJson(defaultValues={
 ,file= "SoundData.json"
 )
 
-EnterSounds = DataLoader.LoadFiles(ConfigData["EnterSoundsDir"])
+EnterSounds = [
+    DataLoader.LoadFiles(ConfigData["EnterSoundsDir"][0]),
+    DataLoader.LoadFiles(ConfigData["EnterSoundsDir"][1])
+]
 
 SpaceSounds = [
     DataLoader.LoadFiles(ConfigData["SpaceSoundsDirs"][0]),
     DataLoader.LoadFiles(ConfigData["SpaceSoundsDirs"][1])
 ]
 
+MouseSounds = [
+    DataLoader.LoadFiles(ConfigData["MouseSoundsDir"][0]),
+    DataLoader.LoadFiles(ConfigData["MouseSoundsDir"][1])
+]
+
 KeySounds = [
     DataLoader.LoadFiles(ConfigData["KeySoundsDir"][0]),
     DataLoader.LoadFiles(ConfigData["KeySoundsDir"][1])
 ]
-
 
 spaceKeys = ["space"]
 specialKeys = ['enter']
@@ -40,8 +47,8 @@ def change_pitch(sound, pitch_factor):
 
 
     if samples.ndim == 2:
-        if np.array_equal(samples[:, 0], samples[:, 1]):
-            print("MONO")
+        #if np.array_equal(samples[:, 0], samples[:, 1]):
+        #    print("MONO")
         samples = samples[:, 0] 
 
 
@@ -61,6 +68,13 @@ def change_pitch(sound, pitch_factor):
 
     return new_sound
 
+def randomisePitchAndVolume(sound:pygame.mixer.Sound,eventName:str,seed:int):
+    random.seed(seed)
+    pitched_sound = change_pitch(sound, ConfigData["PitchUp"]+(random.random()*(ConfigData["PitchDown"]-ConfigData["PitchUp"]))+(len(eventName)*(ConfigData["PitchModifier"]/np.sqrt(len(eventName)))))
+    pitched_sound.set_volume(0.4+(random.SystemRandom().random()*0.1))
+    pitched_sound.fadeout(1)
+    pitched_sound.play()
+
 def playSoundForKey(event,type:int):
     seed = sum(ord(char) for char in event.name)
     random.seed(seed)
@@ -70,8 +84,8 @@ def playSoundForKey(event,type:int):
 
     if event.name in specialKeys:
         if type == 0:
-            currentSoundDir = ConfigData["EnterSoundsDir"]
-            currentSoundList = EnterSounds
+            currentSoundDir = ConfigData["EnterSoundsDir"][type]
+            currentSoundList = EnterSounds[type]
         else:
             return
     elif event.name in spaceKeys:
@@ -81,15 +95,34 @@ def playSoundForKey(event,type:int):
         currentSoundDir = ConfigData["KeySoundsDir"][type]
         currentSoundList = KeySounds[type]
 
-    print(KeySounds)
-
     key_sound_selected = currentSoundDir+"/"+currentSoundList[random.SystemRandom().randint(0,len(currentSoundList)-1)]
 
     currentSound = pygame.mixer.Sound(key_sound_selected)
 
-    print("Playing: ",key_sound_selected)
+    # print("Playing: ",key_sound_selected)
 
-    pitched_sound = change_pitch(currentSound, ConfigData["PitchUp"]+(random.random()*(ConfigData["PitchDown"]-ConfigData["PitchUp"]))+(len(event.name)*(ConfigData["PitchModifier"]/np.sqrt(len(event.name)))))
-    pitched_sound.set_volume(0.4+(random.SystemRandom().random()*0.1))
-    pitched_sound.fadeout(1)
-    pitched_sound.play()
+    randomisePitchAndVolume(sound=currentSound,eventName=event.name,seed=seed)
+
+def playMouseSound(buttonEvent):
+    seed = sum(ord(char) for char in buttonEvent.button)
+    random.seed(seed)
+
+    currentSoundDir = None
+    currentSoundList = None
+
+    if buttonEvent.event_type == "down" or buttonEvent.event_type == "double":
+         currentSoundDir = ConfigData["MouseSoundsDir"][0]
+         currentSoundList = MouseSounds[0]
+    elif  buttonEvent.event_type == "up":
+        currentSoundDir = ConfigData["MouseSoundsDir"][1]
+        currentSoundList = MouseSounds[1]
+        
+
+    mouse_Sound_Selected = currentSoundDir+"/"+currentSoundList[random.SystemRandom().randint(0,len(currentSoundList)-1)]
+
+    #print(mouse_Sound_Selected)
+
+    currentSound = pygame.mixer.Sound(mouse_Sound_Selected)
+    
+
+    randomisePitchAndVolume(sound=currentSound,eventName=buttonEvent.button,seed=seed)

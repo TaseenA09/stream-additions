@@ -1,5 +1,4 @@
-# Sounds will be added when they are finalised
-Sounds/
+# Ignoring test sound data
 **/SoundData.json
 
 # Byte-compiled / optimized / DLL files

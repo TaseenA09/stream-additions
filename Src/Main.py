@@ -1,5 +1,7 @@
 import keyboard
+import mouse
 import SoundController
+import GUI
 
 SoundToPlay = None
 
@@ -7,7 +9,7 @@ keysDown = []
 
 def removeKey(event):
     if event in keysDown:
-        print(keysDown)
+        #print(keysDown)
         keysDown.remove(event)
         SoundController.playSoundForKey(event=event,type=1)
     
@@ -21,6 +23,15 @@ def on_key_press(event):
 
     keyboard.on_release_key(event.name,lambda x: removeKey(event))
 
+def on_mouse_click(event):
+    if isinstance(event,mouse.ButtonEvent):
+        SoundController.playMouseSound(event)
+        
+
 keyboard.on_press(on_key_press)
+
+mouse.hook(on_mouse_click)
+
+GUI.init()
 
 keyboard.wait()
