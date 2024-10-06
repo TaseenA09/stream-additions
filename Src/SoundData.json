@@ -1,1 +1,3 @@
-{"EnterSoundsDir": ["../Sounds/Enter/Down", "../Sounds/Enter/Up"], "SpaceSoundsDirs": ["../Sounds/Space/Down", "../Sounds/Space/Up"], "KeySoundsDir": ["../Sounds/Key/Down", "../Sounds/Key/Up"], "PitchDown": 1.1, "PitchUp": 0.95, "PitchModifier": 0.025, "MouseSoundsDir": ["../Sounds/Mouse/Down", "../Sounds/Mouse/Up"]}
+{
+    "CurrentProfile":"Membrane"
+}

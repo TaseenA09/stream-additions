@@ -1,7 +1,6 @@
 import keyboard
 import mouse
 import SoundController
-import GUI
 
 SoundToPlay = None
 
@@ -31,7 +30,5 @@ def on_mouse_click(event):
 keyboard.on_press(on_key_press)
 
 mouse.hook(on_mouse_click)
-
-GUI.init()
 
 keyboard.wait()
