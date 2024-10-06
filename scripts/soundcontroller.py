@@ -1,14 +1,14 @@
 import pygame
 import numpy as np
 import random
-import DataLoader
+import dataloader
 import os
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 pygame.mixer.init()
 
-Settings, LoadedSounds = DataLoader.GetSoundsFromCurrentProfile()
+Settings, LoadedSounds = dataloader.GetSoundsFromCurrentProfile()
 
 spaceKeys = ["space"]
 specialKeys = ['enter']

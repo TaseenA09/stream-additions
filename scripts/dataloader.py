@@ -4,7 +4,7 @@ import mimetypes
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-SoundFile = "../Sounds"
+SoundFile = "../Sound Profiles"
 
 CONFIG_FILE = "SoundData.json" 
 DEFAULT_CONFIG_DATA = {
