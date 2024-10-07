@@ -1,6 +1,7 @@
 # stream-additions
+> [!WARNING]
+> *In alpha so many things are not present*
 
-*In alpha so many things are not present*
 Stream additions for obs made in python. Keyboard sounds and chat support.
 
 ## Installation
